@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Test</title>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+            <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+            <!--<link rel="stylesheet" href="css/styles.css">-->
+            <link rel="stylesheet" href="css/prism.css">
+                <script type="text/javascript" src="prism.js"></script>
+                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+                
+                <script type="text/javascript">
+                    isMac = navigator.platform.indexOf('Mac') > -1;
+                    isIOS = navigator.platform.match(/(iPhone|iPod|iPad|iWatch|iTV)/i)?true:false;
+                    isWin = navigator.platform.indexOf('Win') > -1;
+                    isAndroid = navigator.platform.indexOf('Android') > -1;
+                    isMobile = navigator.platform.indexOf('Mobile') > -1;
+                    isUNIX = navigator.platform.indexOf('X11') > -1;
+                    isLinux = navigator.platform.indexOf('Linux') > -1;
+                    OSUnknown = isMac == isWin == isLinux == isUNIX == isIOS == isAndroid == isMobile; // might also be a something else
+                    
+                    /*function replaceAll(find, replace, str) {
+                     return str.replace(new RegExp(find, 'g'), replace);
+                     }*/
+                </script>
+                </head>
+    
+    <body>
+        <script type="text/javascript">
+            function isHTML(str) {
+                var a = document.createElement('div');
+                a.innerHTML = str;
+                for (var c = a.childNodes, i = c.length; i--; ) {
+                    if (c[i].nodeType == 1) return true;
+                }
+                return false;
+            }
+        
+        function copyToClipboard(msg) {
+            if(isHTML(msg)) {
+                try {
+                    var msg = jQuery(msg).text();
+                } catch(err) {
+                    // Needed for e.g. ruby code
+                    var msg = msg.replace(/<\/?[^>]+(>|$)/g, "");
+                    console.log("Not a normal string. " + err);
+                }
+            }
+            //window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+            if(isMac) {
+                window.prompt("Copy to clipboard: Cmd+C, Enter", msg);
+                return;
+            }
+            window.prompt("Copy to clipboard: Ctrl+C, Enter", msg);
+        }
+        
+        // replaces \n with &&
+        function copyMultiCMDsToClipboard(msg) {
+            if(isHTML(msg)) {
+                try {
+                    var msg = jQuery(msg).text();
+                } catch(err) {
+                    // Needed for e.g. ruby code
+                    var msg = msg.replace(/<\/?[^>]+(>|$)/g, "");
+                    console.log("Not a normal string. " + err);
+                }
+            }
+            /* or just:
+             var msg = msg.replace( new RegExp( "\r\n", "g" )," && ");
+             var msg = msg.replace( new RegExp( "\n", "g" )," && ");
+             window.prompt("Copy to clipboard: Ctrl/Cmd+C, Enter", msg);
+             */
+            if(isWin) {
+                // As \n isn't working in a prompt, use && for multiple commands
+                var msg = msg.replace( new RegExp( "\r\n", "g" )," && ");
+            } else {
+                var msg = msg.replace( new RegExp( "\n", "g" )," && ");
+            }
+            if(isMac) {
+                window.prompt("Copy to clipboard: Cmd+C, Enter", msg);
+                return;
+            }
+            window.prompt("Copy to clipboard: Ctrl+C, Enter", msg);
+        }
+        </script>
+        
+<pre id="testcopy" class="line-numbers language-bash">
+<code>diskutil unmountDisk /dev/disk1</code>
+<code>diskutil unmountDisk /dev/disk2</code>
+</pre>
+        <button onclick="copyMultiCMDsToClipboard(document.getElementById('testcopy').innerHTML)">Copy</button><br>
+        
+        <div id="cdns">
+            
+            <h3>Links 1:</h3>
+<pre><code id="html_code" class="language-markup">&lt;link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css"&gt;
+&lt;script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"&gt;&lt;/script&gt;
+</code></pre>
+            <button id="neuerTest" onclick="copyToClipboard(document.getElementById('html_code').innerHTML)">Copy HTML</button>
+            
+            <h3>Links 2:</h3>
+<pre><code class="language-markup">&lt;link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.8.0/styles/default.min.css"&gt;
+&lt;script src="//cdn.jsdelivr.net/highlight.js/8.8.0/highlight.min.js"&gt;&lt;/script&gt;
+</code></pre>
+            
+        </div>
+        
+        
+        <h3>Copy by clicking in the text</h3>
+<pre class="line-numbers"><code onClick="copyToClipboard(document.getElementById(this.id).innerHTML)"  id="selectable" class="language-ruby">ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</code></pre>
+        
+        <!--<button onclick="copyToClipboard(document.getElementById('selectable').innerHTML)">Copy</button>-->
+        <br><br>
+        <button id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">This is what I want to copy</button><br>
+        <button id="nextButton" onclick="copyToClipboard('Hello')">This copies "Hello"</button>
+        
+        <h2>Syntax highliting without Prim</h2>
+        <a href="http://ajblk.github.io/SyntaxHighlightGenerator-v3.0/OnlineGenerator.html">Online synatax highliting generator</a><br>
+        
+        <script type="text/javascript" src="http://ajblk.github.io/SyntaxHighlightGenerator-v3.0/scripts/sh-v3.0-min.js"></script>
+        <link type="text/css" rel="stylesheet" href="http://ajblk.github.io/SyntaxHighlightGenerator-v3.0/styles/shCoreDefault.css"/>
+        
+        <div id="highlighterMainDiv_860071" class="syntaxhighlighter cpp"><div id="toolbarContainer_860071" class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div></td><td id="codeContainer_860071" class="code"><div id="container_860071" class="container"><div class="line number1 index0 alt2"><code class="cpp color1 bold">int</code> <code class="cpp plain">main() {</code></div><div class="line number2 index1 alt1"><code class="cpp plain">cout &lt;&lt; </code><code class="cpp string">"Hallo"</code> <code class="cpp plain">&lt;&lt; endl;</code></div><div class="line number3 index2 alt2"><code class="cpp keyword bold">return</code> <code class="cpp plain">0;</code></div><div class="line number4 index3 alt1"><code class="cpp plain">}</code></div></div></td></tr><tr><td>&nbsp;</td></tr></tbody></table></div>
+
+<pre id="presourcecode_860071" class="displaysourcecode"><code>
+int main() {
+    cout &lt;&lt; "Hallo" &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+        <script type="text/javascript">SyntaxHighlighter.initialize();</script>
+        
+    </body>
+</html>
